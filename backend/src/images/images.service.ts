@@ -14,21 +14,21 @@ export class ImagesService {
     this.images = data.map((img) => new Image(img));
   }
 
-  create(createImageDto: CreateImageDto) {
+  create(createImageDto: CreateImageDto): Image {
     const newImage = new Image(createImageDto);
     this.images.push(newImage);
     return newImage;
   }
 
-  async findAll() {
+  findAll(): Image[] {
     return this.images;
   }
 
-  findOne(id: number) {
+  findOne(id: number): Image | {} {
     return this.images.find((image) => image.id === id) || {};
   }
 
-  update(id: number, updateImageDto: UpdateImageDto) {
+  update(id: number, updateImageDto: UpdateImageDto): Image {
     let updated: Image = {} as Image;
 
     this.images = this.images.map((image) => {
@@ -47,7 +47,7 @@ export class ImagesService {
     return updated;
   }
 
-  remove(id: number) {
+  remove(id: number): Image | {} {
     const deleted = this.images.find((image) => image.id === id) || {};
     this.images = this.images.filter((image) => image.id !== id);
     return deleted;

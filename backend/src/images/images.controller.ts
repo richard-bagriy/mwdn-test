@@ -22,7 +22,7 @@ export class ImagesController {
   }
 
   @Get()
-  findAll(@Query('refresh') refresh?: boolean) {
+  findAll() {
     return this.imagesService.findAll();
   }
 

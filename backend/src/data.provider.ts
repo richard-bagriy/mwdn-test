@@ -26,7 +26,7 @@ export const DataProvider: Provider = {
       return images;
     } catch (error) {
       console.error(error);
-      return null;
+      return [];
     }
   },
 };
