@@ -29,12 +29,14 @@ const Carousel: React.FC<Props> = ({ images }) => {
   return (
     <div className="carousel">
       <button
+        data-testid="prev"
         className="arrow-button prev-button"
         onClick={goToPrevious}
         disabled={currentIndex === 0}>
         &lt;
       </button>
       <button
+        data-testid="next"
         className="arrow-button next-button"
         onClick={goToNext}
         disabled={currentIndex === images.length - 1}>
@@ -46,6 +48,7 @@ const Carousel: React.FC<Props> = ({ images }) => {
       <div className="indicators">
         {images.map((_, index) => (
           <span
+            data-testid={`indicator-${index}`}
             key={index}
             className={`indicator ${index === currentIndex ? "active" : ""}`}
             onClick={() => goToImage(index)}></span>
