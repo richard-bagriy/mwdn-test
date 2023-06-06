@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateImageDto } from './dto/create-image.dto';
 import { UpdateImageDto } from './dto/update-image.dto';
+import { Image } from './entities/image.entity';
 
 @Injectable()
 export class ImagesService {
-  create(createImageDto: CreateImageDto) {
-    return 'This action adds a new image';
+  private images: Image[] = [];
+
+  constructor(
+    @Inject('DATA')
+    private readonly data: Array<{ id: number; url: string; title: string }>,
+  ) {
+    this.images = data.map((img) => new Image(img));
   }
 
-  findAll() {
-    return `This action returns all images`;
+  create(createImageDto: CreateImageDto) {
+    const newImage = new Image(createImageDto);
+    this.images.push(newImage);
+    return newImage;
+  }
+
+  async findAll() {
+    return this.images;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} image`;
+    return this.images.find((image) => image.id === id) || {};
   }
 
   update(id: number, updateImageDto: UpdateImageDto) {
-    return `This action updates a #${id} image`;
+    let updated: Image = {} as Image;
+
+    this.images = this.images.map((image) => {
+      if (image.id === id) {
+        const updatedImage = {
+          ...image,
+          ...updateImageDto,
+        };
+        updated = updatedImage;
+        return updatedImage;
+      }
+
+      return image;
+    });
+
+    return updated;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} image`;
+    const deleted = this.images.find((image) => image.id === id) || {};
+    this.images = this.images.filter((image) => image.id !== id);
+    return deleted;
   }
 }
